@@ -427,3 +427,9 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# 用来抄的Codebase
+reference/
+
+# 定制过的dotnet run配置
+Properties/launchSettings.json
