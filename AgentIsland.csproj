@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net8.0-windows</TargetFramework>
@@ -11,10 +11,31 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Remove="reference\**" />
+        <AvaloniaXaml Remove="reference\**" />
+        <None Remove="reference\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="ClassIsland.PluginSdk" Version="$(ClassIslandPluginSdkVersion)">
             <ExcludeAssets>runtime; native</ExcludeAssets>
         </PackageReference>
         <PackageReference Include="DotNetCampus.ModelContextProtocol" Version="0.1.0-alpha.40" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="$(NuGetPackageRoot)dotnetcampus.modelcontextprotocol\0.1.0-alpha.40\lib\net8.0\DotNetCampus.ModelContextProtocol.dll"
+              CopyToOutputDirectory="PreserveNewest"
+              Link="DotNetCampus.ModelContextProtocol.dll" />
+        <None Include="$(NuGetPackageRoot)system.text.json\10.0.0\lib\net8.0\System.Text.Json.dll"
+              CopyToOutputDirectory="PreserveNewest"
+              Link="System.Text.Json.dll" />
+        <None Include="$(NuGetPackageRoot)system.text.encodings.web\10.0.0\lib\net8.0\System.Text.Encodings.Web.dll"
+              CopyToOutputDirectory="PreserveNewest"
+              Link="System.Text.Encodings.Web.dll" />
+        <None Include="$(NuGetPackageRoot)system.io.pipelines\10.0.0\lib\net8.0\System.IO.Pipelines.dll"
+              CopyToOutputDirectory="PreserveNewest"
+              Link="System.IO.Pipelines.dll" />
     </ItemGroup>
 
     <ItemGroup>

@@ -428,8 +428,8 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-# 用来抄的Codebase
+# 用来借鉴（确信）的Codebase
 reference/
 
-# 定制过的dotnet run配置
-Properties/launchSettings.json
+# Qoder Specs（有机密）
+.qoder/
