@@ -147,9 +147,10 @@ dotnet run
 ### 打包
 
 ```bash
-# 打包发行版本
 .\create-cipx.ps1
 ```
+
+或参考：https://docs.classisland.tech/dev/plugins/publishing.html
 
 ## 项目结构
 
@@ -161,6 +162,6 @@ dotnet run
 
 ## 许可证
 
-请根据项目实际情况补充许可证信息。
+本项目在 GPL-3.0 license 下发布。
 
 _本 ReadMe 由 Codex 生成。_

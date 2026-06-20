@@ -1,9 +1,12 @@
+using System.IO;
 using AgentIsland.Mcp;
+using AgentIsland.Models;
 using ClassIsland.Core;
 using ClassIsland.Core.Abstractions;
 using ClassIsland.Core.Attributes;
 using ClassIsland.Core.Extensions.Registry;
 using ClassIsland.Shared;
+using ClassIsland.Shared.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -17,22 +20,37 @@ public class Plugin : PluginBase, IDisposable
     private ILogger<Plugin>? _logger;
     private bool _disposed;
 
+    public static AgentIslandSettings Settings { get; private set; } = new();
+
     public override void Initialize(HostBuilderContext context, IServiceCollection services)
     {
+        var path = Path.Combine(PluginConfigFolder, "Settings.json");
+        Settings = ConfigureFileHelper.LoadConfig<AgentIslandSettings>(path);
+        Settings.PropertyChanged += (_, _) =>
+            ConfigureFileHelper.SaveConfig(path, Settings);
+
+        services.AddSingleton(Settings);
         services.AddNotificationProvider<AgentIsland.Mcp.Tools.AgentIslandNotificationProvider>();
+        services.AddSettingsPage<Views.SettingsPages.AgentIslandSettingsPage>();
+
         AppBase.Current.AppStarted += OnAppStarted;
         AppBase.Current.AppStopping += OnAppStopping;
     }
 
     private async void OnAppStarted(object? sender, EventArgs e)
     {
+        if (!Settings.IsEnabled)
+        {
+            return;
+        }
+
         _logger = IAppHost.GetService<ILogger<Plugin>>();
         _mcpManager = new McpServerManager();
 
         try
         {
-            await _mcpManager.StartAsync();
-            _logger?.LogInformation("AgentIsland MCP server started at http://localhost:5943/mcp and http://localhost:5943/sse.");
+            await _mcpManager.StartAsync(Settings.Port);
+            _logger?.LogInformation($"AgentIsland MCP server started at http://localhost:{Settings.Port}/mcp and http://localhost:{Settings.Port}/sse.");
         }
         catch (Exception ex)
         {

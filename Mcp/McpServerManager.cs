@@ -11,7 +11,7 @@ public sealed class McpServerManager : IDisposable
     private CancellationTokenSource? _cts;
     private bool _disposed;
 
-    public async Task StartAsync()
+    public async Task StartAsync(int port)
     {
         if (_server is not null)
         {
@@ -31,7 +31,7 @@ public sealed class McpServerManager : IDisposable
             .WithJsonSerializer(AgentIslandJsonContext.Default)
             .WithLocalHostHttp(new LocalHostHttpServerTransportOptions
             {
-                Port = 5943,
+                Port = port,
                 EndPoint = "mcp",
                 IsCompatibleWithSse = true
             })
