@@ -6,18 +6,20 @@ on:
   pull_request:
     branches: [ "main" ]
 
+  workflow_dispatch:
+  
 jobs:
 
   build:
 
-    runs-on: windows-2025-vs2026
+    runs-on: windows-latest
     
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Install .NET Core
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 8.0.x
 
@@ -25,7 +27,7 @@ jobs:
       run: dotnet publish -c Release -p:CreateCipx=true
     
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: CIPX Package
         path: cipx
