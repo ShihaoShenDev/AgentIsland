@@ -433,3 +433,6 @@ reference/
 
 # Qoder Specs（有机密）
 .qoder/
+
+# 生成的 CIPX 插件包
+cipx/
