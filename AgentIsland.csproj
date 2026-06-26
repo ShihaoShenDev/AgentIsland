@@ -21,6 +21,7 @@
             <ExcludeAssets>runtime; native</ExcludeAssets>
         </PackageReference>
         <PackageReference Include="DotNetCampus.ModelContextProtocol" Version="0.1.0-alpha.40" />
+        <PackageReference Include="AgentClientProtocol" Version="0.1.5" />
     </ItemGroup>
 
     <ItemGroup>

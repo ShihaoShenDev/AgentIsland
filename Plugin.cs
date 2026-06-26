@@ -1,6 +1,8 @@
 using System.IO;
+using AgentIsland.Automation;
 using AgentIsland.Mcp;
 using AgentIsland.Models;
+using AgentIsland.Services;
 using ClassIsland.Core;
 using ClassIsland.Core.Abstractions;
 using ClassIsland.Core.Attributes;
@@ -30,8 +32,11 @@ public class Plugin : PluginBase, IDisposable
             ConfigureFileHelper.SaveConfig(path, Settings);
 
         services.AddSingleton(Settings);
+        services.AddSingleton<AcpRunnerService>();
         services.AddNotificationProvider<AgentIsland.Mcp.Tools.AgentIslandNotificationProvider>();
-        services.AddSettingsPage<Views.SettingsPages.AgentIslandSettingsPage>();
+        services.AddSettingsPage<Views.SettingsPages.McpSettingsPage>();
+        services.AddSettingsPage<Views.SettingsPages.AcpSettingsPage>();
+        services.AddAction<RunAcpAction, Views.ActionSettings.RunAcpActionSettingsControl>();
 
         AppBase.Current.AppStarted += OnAppStarted;
         AppBase.Current.AppStopping += OnAppStopping;
@@ -49,8 +54,9 @@ public class Plugin : PluginBase, IDisposable
 
         try
         {
-            await _mcpManager.StartAsync(Settings.Port);
-            _logger?.LogInformation($"AgentIsland MCP server started at http://localhost:{Settings.Port}/mcp and http://localhost:{Settings.Port}/sse.");
+            await _mcpManager.StartAsync(Settings.Port, Settings.TransportMode);
+            var endPoint = Settings.TransportMode == McpTransportMode.Sse ? "sse" : "mcp";
+            _logger?.LogInformation($"AgentIsland MCP server started at http://localhost:{Settings.Port}/{endPoint} (mode: {Settings.TransportMode}).");
         }
         catch (Exception ex)
         {

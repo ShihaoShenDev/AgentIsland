@@ -11,7 +11,7 @@ public sealed class McpServerManager : IDisposable
     private CancellationTokenSource? _cts;
     private bool _disposed;
 
-    public async Task StartAsync(int port)
+    public async Task StartAsync(int port, McpTransportMode transportMode)
     {
         if (_server is not null)
         {
@@ -19,7 +19,8 @@ public sealed class McpServerManager : IDisposable
         }
 
         _cts = new CancellationTokenSource();
-        _server = new McpServerBuilder("AgentIsland", "1.0.0")
+
+        var builder = new McpServerBuilder("AgentIsland", "1.0.0")
             .WithTools(tools =>
             {
                 tools.WithTool<LessonTools>();
@@ -28,14 +29,25 @@ public sealed class McpServerManager : IDisposable
                 tools.WithTool<GetScheduleByDateTool>(new GetScheduleByDateTool());
                 tools.WithTool<SendNotificationTool>(new SendNotificationTool());
             })
-            .WithJsonSerializer(AgentIslandJsonContext.Default)
-            .WithLocalHostHttp(new LocalHostHttpServerTransportOptions
+            .WithJsonSerializer(AgentIslandJsonContext.Default);
+
+        builder = transportMode switch
+        {
+            McpTransportMode.Sse => builder.WithLocalHostHttp(new LocalHostHttpServerTransportOptions
+            {
+                Port = port,
+                EndPoint = "sse",
+                IsCompatibleWithSse = true
+            }),
+            _ => builder.WithLocalHostHttp(new LocalHostHttpServerTransportOptions
             {
                 Port = port,
                 EndPoint = "mcp",
-                IsCompatibleWithSse = true
+                IsCompatibleWithSse = false
             })
-            .Build();
+        };
+
+        _server = builder.Build();
 
         await _server.StartAsync(_cts.Token);
     }
