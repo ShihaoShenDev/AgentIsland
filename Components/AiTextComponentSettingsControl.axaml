@@ -1,0 +1,31 @@
+<ci:ComponentBase
+    x:TypeArguments="local:AiTextComponentSettings"
+    xmlns:ci="http://classisland.tech/schemas/xaml/core"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AgentIsland.Models"
+    xmlns:components="clr-namespace:AgentIsland.Components"
+    x:Class="AgentIsland.Components.AiTextComponentSettingsControl">
+    <StackPanel Spacing="8">
+        <TextBlock Text="条目" FontSize="12" Opacity="0.6"/>
+        <ComboBox
+            x:Name="EntryComboBox"
+            PlaceholderText="选择要绑定的条目"
+            HorizontalAlignment="Stretch">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="local:AiTextEntry">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="{Binding Id}" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding Description}" Opacity="0.5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Text="占位文字（无内容时显示）" FontSize="12" Opacity="0.6" Margin="0,4,0,0"/>
+        <TextBox Text="{Binding Settings.PlaceholderText, RelativeSource={RelativeSource AncestorType=components:AiTextComponentSettingsControl}}" 
+                 Watermark="暂无内容"
+                 HorizontalAlignment="Stretch"/>
+        <TextBlock Text="在「AgentIsland / AI 文字」设置页管理条目，或通过 MCP 工具 set_component_text 更新文字内容。"
+                   FontSize="11" Opacity="0.5" TextWrapping="Wrap"/>
+    </StackPanel>
+</ci:ComponentBase>

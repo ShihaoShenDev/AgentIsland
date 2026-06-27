@@ -11,14 +11,14 @@
     <Grid>
         <ScrollViewer Padding="16" VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="8" Classes="settings-container animated-intro">
-                <ci:IconText Glyph="&#xE7C3;" Text="ACP 设置" Margin="0 0 0 4" />
+                <ci:IconText Glyph="&#xEF1D;" Text="ACP 设置" Margin="0 0 0 4" />
 
                 <Border Background="#20FF9800"
                         CornerRadius="4"
                         Padding="12,8"
                         Margin="0,0,0,4">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <ci:FluentIcon Glyph="&#xE7BA;"
+                        <ci:FluentIcon Glyph="&#xF430;"
                                        Foreground="#FFA726"
                                        FontSize="16"
                                        VerticalAlignment="Center"/>
@@ -30,7 +30,7 @@
 
                 <StackPanel IsEnabled="False" Opacity="0.5">
                     <!-- 启用 ACP 功能 -->
-                    <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE7C3;}"
+                    <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xEDE9;}"
                                          Header="启用 ACP 功能"
                                          Description="启用 ACP 面板相关配置和 Agent 管理器入口。">
                         <fa:SettingsExpander.Footer>

@@ -2,9 +2,14 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AgentIsland.Models;
+using AgentIsland.Services;
+using ClassIsland.Core.Abstractions;
+using ClassIsland.Shared;
 using DotNetCampus.ModelContextProtocol.CompilerServices;
 using DotNetCampus.ModelContextProtocol.Protocol.Messages;
 using DotNetCampus.ModelContextProtocol.Servers;
+using Microsoft.Extensions.Logging;
+using Sentry;
 
 namespace AgentIsland.Mcp.Tools;
 
@@ -62,6 +67,9 @@ public sealed class SendNotificationTool : IMcpServerTool
 
     public ValueTask<CallToolResult> CallTool(IMcpServerCallToolContext context)
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        telemetry?.AddBreadcrumb("Tool call: send_notification", "mcp.tool", BreadcrumbLevel.Info);
+
         try
         {
             JsonElement arguments = context.InputJsonArguments;
@@ -69,6 +77,10 @@ public sealed class SendNotificationTool : IMcpServerTool
             string body = ReadOptionalString(arguments, "body") ?? "";
             double maskDuration = ReadOptionalDouble(arguments, "maskDuration") ?? 3.0;
             double overlayDuration = ReadOptionalDouble(arguments, "overlayDuration") ?? 5.0;
+
+            var _logger = IAppHost.GetService<ILogger<SendNotificationTool>>();
+            _logger?.LogDebug("调用 send_notification");
+            _logger?.LogInformation("发送通知: {Message}", message);
 
             if (AgentIslandNotificationProvider.Instance is null)
             {
@@ -85,6 +97,7 @@ public sealed class SendNotificationTool : IMcpServerTool
         }
         catch (Exception ex)
         {
+            telemetry?.CaptureException(ex, "send_notification");
             return ValueTask.FromResult(CallToolResult.FromResultStructured(
                 new NotificationResult(false, ex.Message),
                 AgentIslandJsonContext.Default.NotificationResult));

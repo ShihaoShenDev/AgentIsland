@@ -436,3 +436,6 @@ reference/
 
 # 生成的 CIPX 插件包
 cipx/
+
+# QoderWake 生成的临时文件
+_output/

@@ -2,6 +2,9 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using AgentIsland.Models;
+using ClassIsland.Shared;
+using Sentry;
+using Microsoft.Extensions.Logging;
 
 namespace AgentIsland.Services;
 
@@ -11,7 +14,13 @@ namespace AgentIsland.Services;
 public class AcpRunnerService : IDisposable
 {
     private readonly List<AcpAgentSession> _sessions = [];
+    private readonly ILogger<AcpRunnerService>? _logger;
     private bool _disposed;
+
+    public AcpRunnerService(ILogger<AcpRunnerService>? logger = null)
+    {
+        _logger = logger;
+    }
 
     public async Task RunAgentAsync(
         AcpAgentProfile agent,
@@ -20,12 +29,17 @@ public class AcpRunnerService : IDisposable
         string actionSetId,
         CancellationToken cancellationToken = default)
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        telemetry?.AddBreadcrumb($"ACP agent run: {agent.Name}", "acp.agent", BreadcrumbLevel.Info);
+
         ArgumentNullException.ThrowIfNull(agent);
 
         if (string.IsNullOrWhiteSpace(agent.Command))
         {
             throw new InvalidOperationException($"ACP Agent \u201c{agent.Name}\u201d 未配置启动命令。");
         }
+
+        _logger?.LogInformation("启动 ACP Agent: {AgentName}", agent.Name);
 
         var parts = agent.Command.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length == 0)
@@ -35,6 +49,8 @@ public class AcpRunnerService : IDisposable
 
         var fileName = parts[0];
         var arguments = parts.Length > 1 ? parts[1] : "";
+
+        _logger?.LogDebug("Agent 命令: {FileName} {Arguments}", fileName, arguments);
 
         var process = new Process
         {
@@ -56,6 +72,8 @@ public class AcpRunnerService : IDisposable
 
         await InitializeAcpSessionAsync(session, cancellationToken);
         agent.Status = $"已连接：{DateTime.Now:HH:mm:ss}";
+
+        _logger?.LogInformation("Agent 已启动, SessionId: {SessionId}", session.SessionId);
     }
 
     private static async Task InitializeAcpSessionAsync(AcpAgentSession session, CancellationToken cancellationToken)
@@ -86,6 +104,11 @@ public class AcpRunnerService : IDisposable
         string message,
         CancellationToken cancellationToken = default)
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        telemetry?.AddBreadcrumb($"ACP prompt sent to {agent.Name}", "acp.agent", BreadcrumbLevel.Info);
+
+        _logger?.LogDebug("向 Agent {AgentName} 发送 Prompt", agent.Name);
+
         var session = _sessions.FirstOrDefault(s => s.Agent == agent);
         if (session is null || !session.IsInitialized)
         {
@@ -137,6 +160,8 @@ public class AcpRunnerService : IDisposable
             return;
         }
 
+        _logger?.LogInformation("关闭所有 ACP 会话");
+
         foreach (var session in _sessions)
         {
             try
@@ -151,8 +176,9 @@ public class AcpRunnerService : IDisposable
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                _logger?.LogError(ex, "停止 ACP 会话时出错");
             }
             finally
             {

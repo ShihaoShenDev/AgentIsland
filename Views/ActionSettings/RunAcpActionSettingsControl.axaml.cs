@@ -31,6 +31,6 @@ public partial class RunAcpActionSettingsControl : ActionSettingsControlBase<Run
         ChangeActionName(string.IsNullOrWhiteSpace(Settings.AgentName)
             ? "运行 ACP"
             : $"运行 ACP：{Settings.AgentName}");
-        ChangeActionIcon("\uE7C3");
+        ChangeActionIcon("\uEDE9");
     }
 }

@@ -52,3 +52,7 @@ public sealed record NotificationResult(
     bool Success,
     string Message);
 
+public sealed record SetTextResult(
+    bool Success,
+    string Message);
+

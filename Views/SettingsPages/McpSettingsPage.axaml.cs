@@ -27,6 +27,17 @@ namespace AgentIsland.Views.SettingsPages
         {
             base.OnInitialized();
             DataContext = Plugin.Settings;
+            Plugin.Settings.PropertyChanged += OnSettingsPropertyChanged;
+        }
+
+        private void OnSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName is nameof(Models.AgentIslandSettings.IsEnabled)
+                or nameof(Models.AgentIslandSettings.Port)
+                or nameof(Models.AgentIslandSettings.TransportMode))
+            {
+                RequestRestart();
+            }
         }
 
         private async void OnCopyConnectionAddress(object? sender, RoutedEventArgs e)
@@ -46,7 +57,7 @@ namespace AgentIsland.Views.SettingsPages
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://github.com/ShihaoShenDev/AgentIsland",
+                FileName = "https://my.feishu.cn/wiki/MXrjwyuWRiphTMk81TOc1YeEnUe#share-Hqy8dLYaDo2unlxqfTFcke16nRb",
                 UseShellExecute = true
             });
         }

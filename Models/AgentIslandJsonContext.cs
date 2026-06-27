@@ -11,6 +11,8 @@ namespace AgentIsland.Models;
 [JsonSerializable(typeof(SubjectListResult))]
 [JsonSerializable(typeof(SubjectEntry))]
 [JsonSerializable(typeof(NotificationResult))]
+[JsonSerializable(typeof(SetTextResult))]
+[JsonSerializable(typeof(AiTextEntry))]
 [JsonSerializable(typeof(List<ScheduleClassEntry>))]
 [JsonSerializable(typeof(List<SubjectEntry>))]
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]

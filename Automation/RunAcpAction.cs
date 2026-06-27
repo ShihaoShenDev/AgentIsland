@@ -10,7 +10,7 @@ namespace AgentIsland.Automation;
 [ActionInfo(
     "agentisland.acp.run",
     "运行 ACP",
-    "\uE7C3",
+    "\uEDE9",
     true,
     "AgentIsland")]
 public class RunAcpAction : ActionBase<RunAcpActionSettings>

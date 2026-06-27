@@ -1,9 +1,11 @@
 using AgentIsland.Helpers;
 using AgentIsland.Models;
+using AgentIsland.Services;
 using ClassIsland.Core.Abstractions.Services;
 using ClassIsland.Shared;
 using ClassIsland.Shared.Models.Profile;
 using DotNetCampus.ModelContextProtocol.CompilerServices;
+using Microsoft.Extensions.Logging;
 
 namespace AgentIsland.Mcp.Tools;
 
@@ -12,8 +14,17 @@ public sealed class LessonTools
     [McpServerTool(Name = "get_current_class", ReadOnly = true, Structured = true)]
     public CurrentClassResult GetCurrentClass()
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        return telemetry?.WithInstrumentation("get_current_class", GetCurrentClassCore)
+            ?? GetCurrentClassCore();
+    }
+
+    private static CurrentClassResult GetCurrentClassCore()
+    {
         return UiThreadHelper.RunOnUi(() =>
         {
+            var _logger = IAppHost.GetService<ILogger<LessonTools>>();
+            _logger?.LogDebug("调用 get_current_class");
             ILessonsService lessonsService = IAppHost.GetService<ILessonsService>();
             Subject? subject = lessonsService.CurrentSubject;
             if (subject is null || NormalizeState(lessonsService.CurrentState) != "InClass")
@@ -36,8 +47,17 @@ public sealed class LessonTools
     [McpServerTool(Name = "get_next_class", ReadOnly = true, Structured = true)]
     public NextClassResult GetNextClass()
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        return telemetry?.WithInstrumentation("get_next_class", GetNextClassCore)
+            ?? GetNextClassCore();
+    }
+
+    private static NextClassResult GetNextClassCore()
+    {
         return UiThreadHelper.RunOnUi(() =>
         {
+            var _logger = IAppHost.GetService<ILogger<LessonTools>>();
+            _logger?.LogDebug("调用 get_next_class");
             ILessonsService lessonsService = IAppHost.GetService<ILessonsService>();
             IExactTimeService exactTimeService = IAppHost.GetService<IExactTimeService>();
 
@@ -65,8 +85,17 @@ public sealed class LessonTools
     [McpServerTool(Name = "get_time_status", ReadOnly = true, Structured = true)]
     public TimeStatusResult GetTimeStatus()
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        return telemetry?.WithInstrumentation("get_time_status", GetTimeStatusCore)
+            ?? GetTimeStatusCore();
+    }
+
+    private static TimeStatusResult GetTimeStatusCore()
+    {
         return UiThreadHelper.RunOnUi(() =>
         {
+            var _logger = IAppHost.GetService<ILogger<LessonTools>>();
+            _logger?.LogDebug("调用 get_time_status");
             ILessonsService lessonsService = IAppHost.GetService<ILessonsService>();
             IExactTimeService exactTimeService = IAppHost.GetService<IExactTimeService>();
             string state = NormalizeState(lessonsService.CurrentState);

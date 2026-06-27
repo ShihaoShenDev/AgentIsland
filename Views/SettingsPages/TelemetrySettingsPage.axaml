@@ -1,0 +1,105 @@
+<ci:SettingsPageBase xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:models="using:AgentIsland.Models"
+                     xmlns:ci="http://classisland.tech/schemas/xaml/core"
+                     xmlns:fa="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+                     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
+                     x:Class="AgentIsland.Views.SettingsPages.TelemetrySettingsPage"
+                     x:DataType="models:AgentIslandSettings">
+    <Grid>
+        <ScrollViewer Padding="16" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="8" Classes="settings-container animated-intro">
+                <ci:IconText Glyph="&#xE72E;" Text="遥测与隐私" Margin="0 0 0 4" />
+
+                <!-- 启用遥测 -->
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE9D9;}"
+                                     Header="启用遥测数据收集"
+                                     Description="帮助开发者改进 AgentIsland 的质量和稳定性。遥测数据不包含个人课程信息。">
+                    <fa:SettingsExpander.Footer>
+                        <ToggleSwitch IsChecked="{Binding IsTelemetryEnabled}"/>
+                    </fa:SettingsExpander.Footer>
+                </fa:SettingsExpander>
+
+                <!-- 隐私协议 -->
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE72E;}"
+                                     Header="隐私政策与数据协议"
+                                     Description="使用默认 DSN 时需同意协议；使用自定义 DSN 时此选项将被忽略。">
+                    <fa:SettingsExpander.Footer>
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock x:Name="PrivacyStatusText"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                            <Button x:Name="PrivacyActionButton"
+                                    Click="OnPrivacyActionClick"/>
+                            <Button Content="查看政策"
+                                    Click="OnViewPrivacyPolicy"/>
+                        </StackPanel>
+                    </fa:SettingsExpander.Footer>
+                </fa:SettingsExpander>
+
+                <!-- 自定义 DSN -->
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE774;}"
+                                     Header="自定义 Sentry DSN"
+                                     Description="留空使用默认 DSN；填写后将遥测数据发送至自己的 Sentry 项目。">
+                    <fa:SettingsExpander.Footer>
+                        <TextBox x:Name="DsnTextBox"
+                                 Watermark="https://xxx@o0.ingest.sentry.io/0"
+                                 MinWidth="260"
+                                 Text="{Binding CustomSentryDsn}"/>
+                    </fa:SettingsExpander.Footer>
+                </fa:SettingsExpander>
+
+                <!-- 测试 Sentry（仅 Debug 模式或自定义 DSN 时显示） -->
+                <fa:SettingsExpander x:Name="TestSentryExpander"
+                                     IconSource="{ci:FluentIconSource &#xE768;}"
+                                     Header="测试 Sentry 连接"
+                                     Description="向 Sentry 发送一条测试消息，验证连接是否正常。"
+                                     IsVisible="False">
+                    <fa:SettingsExpander.Footer>
+                        <Button Content="发送测试消息"
+                                Click="OnTestSentryClick"/>
+                    </fa:SettingsExpander.Footer>
+                </fa:SettingsExpander>
+
+                <!-- 默认 DSN 横幅 -->
+                <Border x:Name="DefaultDsnBanner"
+                        Background="#204CAF50"
+                        CornerRadius="4"
+                        Padding="12,8"
+                        Margin="0,8,0,0">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ci:FluentIcon Glyph="&#xE72E;"
+                                       Foreground="#66BB6A"
+                                       FontSize="16"
+                                       VerticalAlignment="Center"/>
+                        <TextBlock Text="遥测数据仅用于改进插件质量，不收集个人课程信息。撤回同意后遥测将立即停止。"
+                                   Foreground="#66BB6A"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- 自定义 DSN 横幅 -->
+                <Border x:Name="CustomDsnBanner"
+                        Background="#20FF9800"
+                        CornerRadius="4"
+                        Padding="12,8"
+                        Margin="0,8,0,0"
+                        IsVisible="False">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ci:FluentIcon Glyph="&#xF430;"
+                                       Foreground="#FFA726"
+                                       FontSize="16"
+                                       VerticalAlignment="Center"/>
+                        <TextBlock Text="当前使用自定义 DSN，遥测数据将发送至您自己的 Sentry 项目，隐私协议已忽略。"
+                                   Foreground="#FFA726"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</ci:SettingsPageBase>

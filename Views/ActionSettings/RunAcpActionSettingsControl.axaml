@@ -17,7 +17,7 @@
                 CornerRadius="4"
                 Padding="12,8">
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <ci:FluentIcon Glyph="&#xE7BA;"
+                <ci:FluentIcon Glyph="&#xF430;"
                                Foreground="#FFA726"
                                FontSize="16"
                                VerticalAlignment="Center"/>

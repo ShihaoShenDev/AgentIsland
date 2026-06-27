@@ -1,10 +1,12 @@
 using System.Globalization;
 using AgentIsland.Helpers;
 using AgentIsland.Models;
+using AgentIsland.Services;
 using ClassIsland.Core.Abstractions.Services;
 using ClassIsland.Shared;
 using ClassIsland.Shared.Models.Profile;
 using DotNetCampus.ModelContextProtocol.CompilerServices;
+using Microsoft.Extensions.Logging;
 
 namespace AgentIsland.Mcp.Tools;
 
@@ -13,8 +15,17 @@ public sealed class ScheduleTools
     [McpServerTool(Name = "get_today_schedule", ReadOnly = true, Structured = true)]
     public ScheduleResult GetTodaySchedule()
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        return telemetry?.WithInstrumentation("get_today_schedule", GetTodayScheduleCore)
+            ?? GetTodayScheduleCore();
+    }
+
+    private static ScheduleResult GetTodayScheduleCore()
+    {
         return UiThreadHelper.RunOnUi(() =>
         {
+            var _logger = IAppHost.GetService<ILogger<ScheduleTools>>();
+            _logger?.LogDebug("获取今日课程表");
             DateTime date = DateTime.Today;
             ILessonsService lessonsService = IAppHost.GetService<ILessonsService>();
             IProfileService profileService = IAppHost.GetService<IProfileService>();
@@ -31,6 +42,8 @@ public sealed class ScheduleTools
     {
         return UiThreadHelper.RunOnUi(() =>
         {
+            var _logger = IAppHost.GetService<ILogger<ScheduleTools>>();
+            _logger?.LogDebug("获取 {Date} 的课程表", dateString);
             DateTime targetDate = ParseDate(dateString);
             ILessonsService lessonsService = IAppHost.GetService<ILessonsService>();
             IProfileService profileService = IAppHost.GetService<IProfileService>();
@@ -48,6 +61,8 @@ public sealed class ScheduleTools
         {
             try
             {
+                var _logger = IAppHost.GetService<ILogger<ScheduleTools>>();
+                _logger?.LogInformation("交换课程: {Index1} <-> {Index2}, 日期: {Date}", classIndex1, classIndex2, date);
                 DateTime targetDate = ParseDate(date);
                 ILessonsService lessonsService = IAppHost.GetService<ILessonsService>();
                 IProfileService profileService = IAppHost.GetService<IProfileService>();
@@ -90,8 +105,17 @@ public sealed class ScheduleTools
     [McpServerTool(Name = "list_subjects", ReadOnly = true, Structured = true)]
     public SubjectListResult ListSubjects()
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        return telemetry?.WithInstrumentation("list_subjects", ListSubjectsCore)
+            ?? ListSubjectsCore();
+    }
+
+    private static SubjectListResult ListSubjectsCore()
+    {
         return UiThreadHelper.RunOnUi(() =>
         {
+            var _logger = IAppHost.GetService<ILogger<ScheduleTools>>();
+            _logger?.LogDebug("列出所有科目");
             IProfileService profileService = IAppHost.GetService<IProfileService>();
             List<SubjectEntry> subjects = profileService.Profile.Subjects
                 .Select(pair => new SubjectEntry(

@@ -2,9 +2,14 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AgentIsland.Models;
+using AgentIsland.Services;
+using ClassIsland.Core.Abstractions;
+using ClassIsland.Shared;
 using DotNetCampus.ModelContextProtocol.CompilerServices;
 using DotNetCampus.ModelContextProtocol.Protocol.Messages;
 using DotNetCampus.ModelContextProtocol.Servers;
+using Microsoft.Extensions.Logging;
+using Sentry;
 
 namespace AgentIsland.Mcp.Tools;
 
@@ -47,10 +52,16 @@ public sealed class GetScheduleByDateTool : IMcpServerTool
 
     public ValueTask<CallToolResult> CallTool(IMcpServerCallToolContext context)
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        telemetry?.AddBreadcrumb("Tool call: get_schedule_by_date", "mcp.tool", BreadcrumbLevel.Info);
+
         try
         {
             JsonElement arguments = context.InputJsonArguments;
             string date = ReadRequiredString(arguments, "date");
+
+            var _logger = IAppHost.GetService<ILogger<GetScheduleByDateTool>>();
+            _logger?.LogDebug("调用 get_schedule_by_date, 日期: {Date}", date);
 
             ScheduleResult result = new ScheduleTools().GetScheduleByDate(date);
             return ValueTask.FromResult(CallToolResult.FromResultStructured(
@@ -59,6 +70,7 @@ public sealed class GetScheduleByDateTool : IMcpServerTool
         }
         catch (Exception ex)
         {
+            telemetry?.CaptureException(ex, "get_schedule_by_date");
             return ValueTask.FromResult(CallToolResult.FromResultStructured(
                 new ScheduleResult($"Error: {ex.Message}", "", new System.Collections.Generic.List<ScheduleClassEntry>()),
                 AgentIslandJsonContext.Default.ScheduleResult));

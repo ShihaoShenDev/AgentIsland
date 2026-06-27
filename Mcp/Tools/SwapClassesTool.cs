@@ -1,8 +1,15 @@
 using System.Text.Json;
+using AgentIsland.Helpers;
 using AgentIsland.Models;
+using AgentIsland.Services;
+using ClassIsland.Core.Abstractions;
+using ClassIsland.Core.Abstractions.Services;
+using ClassIsland.Shared;
 using DotNetCampus.ModelContextProtocol.CompilerServices;
 using DotNetCampus.ModelContextProtocol.Protocol.Messages;
 using DotNetCampus.ModelContextProtocol.Servers;
+using Microsoft.Extensions.Logging;
+using Sentry;
 
 namespace AgentIsland.Mcp.Tools;
 
@@ -55,10 +62,16 @@ public sealed class SwapClassesTool : IMcpServerTool
 
     public ValueTask<CallToolResult> CallTool(IMcpServerCallToolContext context)
     {
+        var telemetry = IAppHost.GetService<SentryTelemetryService>();
+        telemetry?.AddBreadcrumb("Tool call: swap_classes", "mcp.tool", BreadcrumbLevel.Info);
+
         JsonElement arguments = context.InputJsonArguments;
         int classIndex1 = ReadRequiredInt(arguments, "classIndex1");
         int classIndex2 = ReadRequiredInt(arguments, "classIndex2");
         string date = ReadOptionalString(arguments, "date") ?? "";
+
+        var _logger = IAppHost.GetService<ILogger<SwapClassesTool>>();
+        _logger?.LogDebug("调用 swap_classes, classIndex1: {Index1}, classIndex2: {Index2}, date: {Date}", classIndex1, classIndex2, date);
 
         SwapResult result = new ScheduleTools().SwapClasses(classIndex1, classIndex2, date);
         return ValueTask.FromResult(CallToolResult.FromResultStructured(
