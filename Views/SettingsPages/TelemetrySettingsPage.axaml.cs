@@ -132,7 +132,7 @@ public partial class TelemetrySettingsPage : SettingsPageBase
     {
         Process.Start(new ProcessStartInfo
         {
-            FileName = "https://github.com/ShihaoShenDev/AgentIsland/blob/main/PRIVACY_POLICY.md",
+            FileName = "https://my.feishu.cn/wiki/K4RowGQs8iZ8e4kATH0cP7mynAd",
             UseShellExecute = true
         });
     }
