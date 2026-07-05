@@ -1,0 +1,12 @@
+schema_version: 1
+module_path: models_and_helpers
+title: 插件配置模型与 UI 线程辅助工具
+scope:
+    - Models/
+    - Helpers/
+source_files: []
+depends_on: []
+related_to:
+    - path: mcp_server_and_tools
+    - path: plugin_entry_and_wiring
+    - path: ui_components_and_settings_pages

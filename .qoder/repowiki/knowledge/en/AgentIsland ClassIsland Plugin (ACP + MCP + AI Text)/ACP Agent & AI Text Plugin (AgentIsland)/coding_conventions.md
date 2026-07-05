@@ -1,0 +1,5 @@
+- Settings and profile classes derive from `CommunityToolkit.Mvvm.ComponentModel.ObservableObject` and expose fields via `[JsonPropertyName]`-annotated properties backed by `SetProperty(ref _field, value)`.
+- Collections of observable items are tracked by subscribing/unsubscribing to both `CollectionChanged` and each item's `PropertyChanged` in dedicated `Hook*`/`Unhook*` helpers invoked from property setters.
+- UI-facing entry points are registered with declarative attributes (`[ActionInfo(...)]`, `[ComponentInfo(...)]`) rather than manual registration code.
+- Background work is wrapped with `SentryTelemetryService.WithInstrumentation` / `WithInstrumentationAsync` to emit breadcrumbs, transactions, and captured exceptions automatically.
+- Long-running processes are managed through a private session class holding `Process` + metadata, collected in a list and cleaned up in `Dispose` with graceful close followed by forced kill.

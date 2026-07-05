@@ -11,10 +11,10 @@
     <Grid>
         <ScrollViewer Padding="16" VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="8" Classes="settings-container animated-intro">
-                <ci:IconText Glyph="&#xE72E;" Text="遥测与隐私" Margin="0 0 0 4" />
+                <ci:IconText Glyph="&#xEF4E;" Text="遥测与隐私" Margin="0 0 0 4" />
 
                 <!-- 启用遥测 -->
-                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE9D9;}"
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xEDE8;}"
                                      Header="启用遥测数据收集"
                                      Description="帮助开发者改进 AgentIsland 的质量和稳定性。遥测数据不包含个人课程信息。">
                     <fa:SettingsExpander.Footer>
@@ -23,7 +23,7 @@
                 </fa:SettingsExpander>
 
                 <!-- 隐私协议 -->
-                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE72E;}"
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xEF56;}"
                                      Header="隐私政策与数据协议"
                                      Description="使用默认 DSN 时需同意协议；使用自定义 DSN 时此选项将被忽略。">
                     <fa:SettingsExpander.Footer>
@@ -40,7 +40,7 @@
                 </fa:SettingsExpander>
 
                 <!-- 自定义 DSN -->
-                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE774;}"
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xEF1C;}"
                                      Header="自定义 Sentry DSN"
                                      Description="留空使用默认 DSN；填写后将遥测数据发送至自己的 Sentry 项目。">
                     <fa:SettingsExpander.Footer>
@@ -53,7 +53,7 @@
 
                 <!-- 测试 Sentry（仅 Debug 模式或自定义 DSN 时显示） -->
                 <fa:SettingsExpander x:Name="TestSentryExpander"
-                                     IconSource="{ci:FluentIconSource &#xE768;}"
+                                     IconSource="{ci:FluentIconSource &#xEEA0;}"
                                      Header="测试 Sentry 连接"
                                      Description="向 Sentry 发送一条测试消息，验证连接是否正常。"
                                      IsVisible="False">
@@ -70,7 +70,7 @@
                         Padding="12,8"
                         Margin="0,8,0,0">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <ci:FluentIcon Glyph="&#xE72E;"
+                        <ci:FluentIcon Glyph="&#xEF4E;"
                                        Foreground="#66BB6A"
                                        FontSize="16"
                                        VerticalAlignment="Center"/>

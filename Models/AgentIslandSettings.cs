@@ -180,6 +180,12 @@ public class AgentIslandSettings : ObservableObject
         (HasAgreedToPrivacyPolicy || !string.IsNullOrWhiteSpace(CustomSentryDsn));
 
     /// <summary>
+    /// 遥测开关是否可用（同意协议或使用自定义 DSN 时才可开启）
+    /// </summary>
+    public bool CanToggleTelemetry =>
+        HasAgreedToPrivacyPolicy || !string.IsNullOrWhiteSpace(CustomSentryDsn);
+
+    /// <summary>
     /// 是否正在使用自定义 DSN（此时跳过隐私协议同意检查）
     /// </summary>
     public bool IsUsingCustomDsn => !string.IsNullOrWhiteSpace(CustomSentryDsn);
@@ -245,6 +251,18 @@ public class AgentIslandSettings : ObservableObject
             or nameof(CustomSentryDsn))
         {
             OnPropertyChanged(nameof(IsTelemetryActive));
+        }
+
+        if (e.PropertyName is nameof(HasAgreedToPrivacyPolicy)
+            or nameof(CustomSentryDsn))
+        {
+            OnPropertyChanged(nameof(CanToggleTelemetry));
+
+            // 同意协议或使用自定义 DSN 后自动开启遥测
+            if (CanToggleTelemetry && !IsTelemetryEnabled)
+            {
+                IsTelemetryEnabled = true;
+            }
         }
 
         if (e.PropertyName is nameof(CustomSentryDsn))

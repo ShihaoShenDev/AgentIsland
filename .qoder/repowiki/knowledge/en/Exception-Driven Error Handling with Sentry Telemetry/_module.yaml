@@ -1,0 +1,13 @@
+schema_version: 1
+module_path: error_handling
+title: Exception-Driven Error Handling with Sentry Telemetry
+scope: []
+source_files:
+    - Services/SentryTelemetryService.cs
+    - Plugin.cs
+    - Mcp/McpServerManager.cs
+    - Automation/RunAcpAction.cs
+    - Mcp/Tools/ScheduleTools.cs
+    - Mcp/Tools/SendNotificationTool.cs
+depends_on: []
+related_to: []

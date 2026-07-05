@@ -1,0 +1,13 @@
+schema_version: 1
+module_path: agent_island_plugin
+title: ACP Agent & AI Text Plugin (AgentIsland)
+scope:
+    - Automation/
+    - Components/
+    - Helpers/
+    - Models/
+    - Services/
+    - Views/
+source_files: []
+depends_on: []
+related_to: []

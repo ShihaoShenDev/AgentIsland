@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: mcp_server_and_tools
+title: MCP 服务器与工具集
+scope:
+    - Mcp/
+source_files: []
+depends_on: []
+related_to:
+    - path: models_and_helpers
+    - path: plugin_entry_and_wiring

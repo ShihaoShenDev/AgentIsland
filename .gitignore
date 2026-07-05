@@ -431,11 +431,10 @@ FodyWeavers.xsd
 # 用来借鉴（确信）的Codebase
 reference/
 
-# Qoder Specs（有机密）
-.qoder/
+# 部分 Qoder 文件（有机密）
+.qoder/*
+!.qoder/repowiki/
+_output/
 
 # 生成的 CIPX 插件包
 cipx/
-
-# QoderWake 生成的临时文件
-_output/

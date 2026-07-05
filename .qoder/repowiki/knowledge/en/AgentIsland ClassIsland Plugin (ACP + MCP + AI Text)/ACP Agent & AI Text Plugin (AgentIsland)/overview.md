@@ -1,0 +1,1 @@
+ClassIsland plugin that runs external ACP stdio agents, exposes an MCP server for tool calls, and provides an AI-driven text component with settings UI.

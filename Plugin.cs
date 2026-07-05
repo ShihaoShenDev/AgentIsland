@@ -42,6 +42,7 @@ public class Plugin : PluginBase, IDisposable
         services.AddSingleton<AcpRunnerService>();
         services.AddNotificationProvider<AgentIsland.Mcp.Tools.AgentIslandNotificationProvider>();
         services.AddComponent<Components.AiTextComponent, Components.AiTextComponentSettingsControl>();
+        services.AddSettingsPage<Views.SettingsPages.OverviewSettingsPage>();
         services.AddSettingsPage<Views.SettingsPages.McpSettingsPage>();
         services.AddSettingsPage<Views.SettingsPages.AcpSettingsPage>();
         services.AddSettingsPage<Views.SettingsPages.AiTextSettingsPage>();

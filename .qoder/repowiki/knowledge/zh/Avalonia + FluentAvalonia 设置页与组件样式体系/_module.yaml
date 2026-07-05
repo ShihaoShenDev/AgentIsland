@@ -1,0 +1,14 @@
+schema_version: 1
+module_path: frontend_style
+title: Avalonia + FluentAvalonia 设置页与组件样式体系
+scope: []
+source_files:
+    - Components/AiTextComponent.axaml
+    - Components/AiTextComponentSettingsControl.axaml
+    - Views/SettingsPages/AcpSettingsPage.axaml
+    - Views/SettingsPages/McpSettingsPage.axaml
+    - Views/SettingsPages/AiTextSettingsPage.axaml
+    - Views/SettingsPages/TelemetrySettingsPage.axaml
+    - Views/ActionSettings/RunAcpActionSettingsControl.axaml
+depends_on: []
+related_to: []

@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: ui_components_and_settings_pages
+title: Avalonia UI 组件与设置页面
+scope:
+    - Components/
+    - Views/
+source_files: []
+depends_on: []
+related_to:
+    - path: models_and_helpers
+    - path: plugin_entry_and_wiring

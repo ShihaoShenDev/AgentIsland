@@ -1,0 +1,13 @@
+schema_version: 1
+module_path: plugin_entry_and_wiring
+title: 插件入口与依赖注入装配
+scope:
+    - Plugin.cs
+    - Automation/
+    - Services/
+source_files: []
+depends_on: []
+related_to:
+    - path: mcp_server_and_tools
+    - path: models_and_helpers
+    - path: ui_components_and_settings_pages
