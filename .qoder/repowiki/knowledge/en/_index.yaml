@@ -3,7 +3,7 @@ schema_version: 1
 locale: en-US
 branch: main
 nodes_managed: true
-exported_at: "2026-07-05T05:52:11Z"
+exported_at: "2026-07-05T13:05:36Z"
 modules:
     "":
         dir_name: AgentIsland ClassIsland Plugin (ACP + MCP + AI Text)

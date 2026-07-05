@@ -4,11 +4,19 @@
 **Referenced Files in This Document**
 - [AgentIslandSettings.cs](file://Models/AgentIslandSettings.cs)
 - [SentryTelemetryService.cs](file://Services/SentryTelemetryService.cs)
-- [TelemetrySettingsPage.axaml.cs](file://Views/SettingsPages/TelemetrySettingsPage.axaml.cs)
-- [TelemetrySettingsPage.axaml](file://Views/SettingsPages/TelemetrySettingsPage.axaml)
+- [TelemetrySettingsPage.axaml.cs](file://Views\SettingsPages\TelemetrySettingsPage.axaml.cs)
+- [TelemetrySettingsPage.axaml](file://Views\SettingsPages\TelemetrySettingsPage.axaml)
 - [PRIVACY_POLICY.md](file://PRIVACY_POLICY.md)
 - [CROSS_BORDER_DATA_TRANSFER.md](file://CROSS_BORDER_DATA_TRANSFER.md)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Updated automatic enabling behavior section to reflect enhanced user experience
+- Enhanced derived properties explanation with automatic enabling logic
+- Updated workflow diagrams to show automatic telemetry activation
+- Added new section on intelligent consent handling
+- Updated troubleshooting guide with automatic enabling scenarios
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -16,11 +24,12 @@
 3. [Core Components](#core-components)
 4. [Architecture Overview](#architecture-overview)
 5. [Detailed Component Analysis](#detailed-component-analysis)
-6. [Dependency Analysis](#dependency-analysis)
-7. [Performance Considerations](#performance-considerations)
-8. [Troubleshooting Guide](#troubleshooting-guide)
-9. [Conclusion](#conclusion)
-10. [Appendices](#appendices)
+6. [Intelligent Consent Handling](#intelligent-consent-handling)
+7. [Dependency Analysis](#dependency-analysis)
+8. [Performance Considerations](#performance-considerations)
+9. [Troubleshooting Guide](#troubleshooting-guide)
+10. [Conclusion](#conclusion)
+11. [Appendices](#appendices)
 
 ## Introduction
 This document explains the telemetry and privacy configuration controls implemented in the project. It focuses on:
@@ -28,6 +37,7 @@ This document explains the telemetry and privacy configuration controls implemen
 - HasAgreedToPrivacyPolicy consent tracking to ensure compliance before using default Sentry endpoints.
 - CustomSentryDsn override capability to route telemetry to a custom Sentry instance (e.g., enterprise self-hosted).
 - Derived properties that control behavior: IsTelemetryActive, CanToggleTelemetry, IsUsingCustomDsn, EffectiveSentryDsn.
+- **Enhanced automatic enabling**: When users agree to privacy policy or configure custom DSN, telemetry automatically enables if previously disabled, improving user experience while maintaining privacy compliance.
 - The privacy policy agreement workflow, cross-border data transfer considerations, and enterprise deployment scenarios with custom Sentry instances.
 - Examples of opt-in/opt-out procedures, custom DSN configuration, and compliance requirements across environments.
 
@@ -92,8 +102,8 @@ Key configuration fields and derived properties:
 - IsUsingCustomDsn: Shortcut indicating whether a custom DSN is set.
 - EffectiveSentryDsn: Resolved DSN used by Sentry SDK (custom if provided, otherwise default).
 
-Behavioral highlights:
-- When consent is granted or a custom DSN is provided, the system can automatically enable telemetry if it was previously disabled.
+**Enhanced Behavioral Highlights:**
+- **Automatic enabling**: When users agree to privacy policy or configure custom DSN, telemetry automatically enables if it was previously disabled, providing seamless user experience.
 - Changing CustomSentryDsn triggers re-initialization of Sentry SDK to apply the new endpoint.
 - PII is not sent by default; traces are sampled at full rate; session tracking is disabled.
 
@@ -104,9 +114,9 @@ Behavioral highlights:
 - [TelemetrySettingsPage.axaml.cs:44-73](file://Views/SettingsPages/TelemetrySettingsPage.axaml.cs#L44-L73)
 
 ## Architecture Overview
-The telemetry architecture follows a clear separation of concerns:
+The telemetry architecture follows a clear separation of concerns with intelligent consent handling:
 - UI layer binds to settings and updates consent and DSN values.
-- Settings layer computes derived state and reacts to changes.
+- Settings layer computes derived state and reacts to changes with automatic enabling logic.
 - Service layer initializes or shuts down Sentry SDK according to derived state.
 
 ```mermaid
@@ -118,6 +128,11 @@ participant Service as "SentryTelemetryService.cs"
 participant Sentry as "Sentry SDK"
 User->>UI : Toggle "Enable telemetry" / Update consent / Enter custom DSN
 UI->>Settings : Update IsTelemetryEnabled / HasAgreedToPrivacyPolicy / CustomSentryDsn
+alt Privacy agreed OR Custom DSN configured
+Settings-->>Settings : Automatic enabling : IsTelemetryEnabled = true
+else No consent AND no custom DSN
+Settings-->>Settings : Keep IsTelemetryEnabled unchanged
+end
 Settings-->>UI : PropertyChanged events
 Settings-->>Service : PropertyChanged events
 Service->>Service : EvaluateAndApply()
@@ -139,7 +154,7 @@ end
 Responsibilities:
 - Expose core configuration fields: IsTelemetryEnabled, HasAgreedToPrivacyPolicy, CustomSentryDsn.
 - Compute derived properties: IsTelemetryActive, CanToggleTelemetry, IsUsingCustomDsn, EffectiveSentryDsn.
-- React to property changes to keep derived state consistent and auto-enable telemetry when allowed.
+- React to property changes to keep derived state consistent and **automatically enable telemetry when allowed**.
 
 Derived property logic:
 - IsTelemetryActive = IsTelemetryEnabled AND (HasAgreedToPrivacyPolicy OR CustomSentryDsn is non-empty).
@@ -147,9 +162,9 @@ Derived property logic:
 - IsUsingCustomDsn = CustomSentryDsn is non-empty.
 - EffectiveSentryDsn = CustomSentryDsn if non-empty, otherwise default DSN from service.
 
-Change propagation:
+**Enhanced Change Propagation:**
 - Changes to IsTelemetryEnabled, HasAgreedToPrivacyPolicy, or CustomSentryDsn trigger recomputation of IsTelemetryActive.
-- Changes to HasAgreedToPrivacyPolicy or CustomSentryDsn update CanToggleTelemetry and may auto-enable telemetry if permitted.
+- Changes to HasAgreedToPrivacyPolicy or CustomSentryDsn update CanToggleTelemetry and **automatically enable telemetry if permitted**.
 - Changes to CustomSentryDsn also update EffectiveSentryDsn and IsUsingCustomDsn.
 
 ```mermaid
@@ -162,6 +177,7 @@ class AgentIslandSettings {
 +bool CanToggleTelemetry
 +bool IsUsingCustomDsn
 +string EffectiveSentryDsn
++void OnPropertyChanged(PropertyChangedEventArgs e)
 }
 ```
 
@@ -235,6 +251,7 @@ alt Not agreed
 UI->>UI : Show consent dialog
 User->>UI : Confirm
 UI->>Settings : Set HasAgreedToPrivacyPolicy = true
+Settings-->>Settings : Auto-enable telemetry if permitted
 else Already agreed
 UI->>UI : Show revoke confirmation dialog
 User->>UI : Confirm
@@ -252,6 +269,40 @@ Settings-->>UI : PropertyChanged -> UpdatePrivacyUI()
 - [TelemetrySettingsPage.axaml.cs:27-73](file://Views/SettingsPages/TelemetrySettingsPage.axaml.cs#L27-L73)
 - [TelemetrySettingsPage.axaml.cs:75-124](file://Views/SettingsPages/TelemetrySettingsPage.axaml.cs#L75-L124)
 - [TelemetrySettingsPage.axaml:16-52](file://Views/SettingsPages/TelemetrySettingsPage.axaml#L16-L52)
+
+## Intelligent Consent Handling
+
+**New Section** - Enhanced automatic enabling functionality that significantly improves user experience while maintaining strict privacy compliance.
+
+### Automatic Enabling Logic
+The system now intelligently enables telemetry when users demonstrate intent to use telemetry features:
+
+**Trigger Conditions:**
+- User agrees to privacy policy → Automatically enables telemetry if previously disabled
+- User configures custom DSN → Automatically enables telemetry if previously disabled
+- Both conditions maintain CanToggleTelemetry requirement
+
+**Implementation Details:**
+- Located in `OnPropertyChanged` method of AgentIslandSettings
+- Executes after CanToggleTelemetry property updates
+- Only activates when telemetry was previously disabled
+- Maintains backward compatibility with manual control
+
+### User Experience Improvements
+- **Seamless Setup**: Users who agree to privacy policy immediately get telemetry working without additional steps
+- **Enterprise Friendly**: Custom DSN configuration automatically enables telemetry for enterprise deployments
+- **Reduced Friction**: Eliminates the need for separate manual enabling step after consent
+- **Maintained Control**: Users can still manually disable telemetry at any time
+
+### Compliance Safeguards
+- Automatic enabling only occurs when CanToggleTelemetry is true
+- Privacy policy agreement remains mandatory for default DSN usage
+- Custom DSN bypasses consent check but maintains data residency control
+- All automatic actions are reversible through standard UI controls
+
+**Section sources**
+- [AgentIslandSettings.cs:261-265](file://Models/AgentIslandSettings.cs#L261-L265)
+- [AgentIslandSettings.cs:256-266](file://Models/AgentIslandSettings.cs#L256-L266)
 
 ## Dependency Analysis
 High-level dependencies:
@@ -281,19 +332,21 @@ UI --> Service
 - Session tracking is disabled to avoid overhead; rely on explicit breadcrumbs and transactions.
 - PII is not sent by default; this reduces payload size and privacy risk.
 - Re-initializing Sentry SDK on DSN changes ensures correctness but incurs brief overhead; batch DSN changes where possible.
-
-[No sources needed since this section provides general guidance]
+- **Enhanced**: Automatic enabling eliminates redundant UI interactions, reducing overall application overhead during setup.
 
 ## Troubleshooting Guide
 Common issues and resolutions:
 - Telemetry not starting after granting consent:
   - Ensure CanToggleTelemetry is true and IsTelemetryEnabled is true; verify IsTelemetryActive reflects expected state.
   - Check that EffectiveSentryDsn resolves to a valid DSN (default or custom).
+  - **New**: Verify automatic enabling triggered correctly when privacy policy was agreed.
 - Custom DSN not applied:
   - After entering a custom DSN, confirm that IsUsingCustomDsn is true and EffectiveSentryDsn matches your value.
   - Verify that Sentry SDK has been re-initialized; look for initialization breadcrumb in logs.
+  - **New**: Check if automatic enabling occurred due to custom DSN configuration.
 - Unable to toggle telemetry:
   - If CanToggleTelemetry is false, provide consent or enter a custom DSN.
+  - **New**: Remember that automatic enabling may have already enabled telemetry when consent was granted.
 - Cross-border transfer concerns:
   - Review PRIVACY_POLICY.md and CROSS_BORDER_DATA_TRANSFER.md for data flows and legal basis.
   - For enterprises, configure CustomSentryDsn to point to an internal Sentry instance to retain data residency.
@@ -306,33 +359,35 @@ Common issues and resolutions:
 - [CROSS_BORDER_DATA_TRANSFER.md:1-141](file://CROSS_BORDER_DATA_TRANSFER.md#L1-L141)
 
 ## Conclusion
-The telemetry and privacy configuration provides a robust, compliant framework:
-- Users explicitly opt-in via consent when using default Sentry endpoints.
+The telemetry and privacy configuration provides a robust, compliant framework with enhanced user experience:
+- Users explicitly opt-in via consent when using default Sentry endpoints, with **automatic enabling** for improved UX.
 - Enterprises can deploy custom Sentry instances via CustomSentryDsn, bypassing consent checks while retaining control over data residency.
+- **Intelligent consent handling** automatically enables telemetry when users demonstrate clear intent through consent or custom configuration.
 - Derived properties enforce correct behavior and simplify UI logic.
 - The service layer dynamically manages Sentry SDK lifecycle based on real-time settings.
-
-[No sources needed since this section summarizes without analyzing specific files]
+- **Enhanced automatic enabling** significantly reduces friction while maintaining strict privacy compliance and user control.
 
 ## Appendices
 
 ### Opt-in/Opt-out Procedures
-- Opt-in:
+- **Enhanced Opt-in**:
   - Open AgentIsland / 遥测与隐私 settings.
-  - Click “同意” and confirm.
-  - Enable “启用遥测数据收集”.
+  - Click "同意" and confirm.
+  - **System automatically enables telemetry** if previously disabled.
+  - Manual toggle available for additional control.
 - Opt-out:
   - Open AgentIsland / 遥测与隐私 settings.
-  - Click “撤回同意” and confirm.
-  - Disable “启用遥测数据收集”.
+  - Click "撤回同意" and confirm.
+  - Disable "启用遥测数据收集".
 
 **Section sources**
 - [TelemetrySettingsPage.axaml.cs:75-124](file://Views/SettingsPages/TelemetrySettingsPage.axaml.cs#L75-L124)
 - [PRIVACY_POLICY.md:69-94](file://PRIVACY_POLICY.md#L69-L94)
 
 ### Custom DSN Configuration
-- Navigate to “自定义 Sentry DSN”.
+- Navigate to "自定义 Sentry DSN".
 - Enter a valid Sentry DSN URL.
+- **System automatically enables telemetry** and shows custom DSN banner.
 - Observe banner indicating custom DSN usage; consent status is ignored.
 - Clear the field to revert to default DSN.
 
@@ -346,6 +401,7 @@ The telemetry and privacy configuration provides a robust, compliant framework:
 - Legal basis includes separate consent per applicable law.
 - Data minimization and encryption in transit are enforced.
 - Retention policies follow Sentry defaults unless adjusted by administrators.
+- **Enhanced**: Automatic enabling maintains compliance by only activating when proper consent or custom DSN is in place.
 
 **Section sources**
 - [PRIVACY_POLICY.md:69-102](file://PRIVACY_POLICY.md#L69-L102)
