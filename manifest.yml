@@ -1,9 +1,9 @@
 id: ShihaoShen.AgentIsland
 name: AgentIsland
-description: 为 ClassIsland 注入智能体力量
+description: 你的课表，智能进化。
 entranceAssembly: "AgentIsland.dll"
 url: https://github.com/ShihaoShenDev/AgentIsland
-version: 1.0.0.0
+version: 0.1.0.0
 apiVersion: 2.0.0.0
 author: Shihao Shen
 repoOwner: ShihaoShenDev
