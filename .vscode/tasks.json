@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run (Debug)",
+            "label": "Run",
             "type": "shell",
             "command": ".\\build-debug.ps1",
             "inAgents": true
@@ -16,7 +16,13 @@
         {
             "label": "Build CIPX Package",
             "type": "shell",
-            "command": ".\\create-cipx.ps1",
+            "command": ".\\cipx.ps1",
+            "inAgents": true
+        },
+        {
+            "label": "Build CIPX Package (Debug)",
+            "type": "shell",
+            "command": ".\\cipx-debug.ps1",
             "inAgents": true
         }
     ]
