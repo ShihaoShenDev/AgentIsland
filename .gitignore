@@ -438,3 +438,6 @@ _output/
 
 # 生成的 CIPX 插件包
 cipx/
+
+# MiMo Code Compose 模式生成的 Docs
+docs/

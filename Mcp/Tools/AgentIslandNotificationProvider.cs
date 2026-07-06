@@ -7,8 +7,8 @@ using Microsoft.Extensions.Logging;
 
 namespace AgentIsland.Mcp.Tools;
 
-[NotificationProviderInfo("687EFB6B-0639-44F4-A0EC-29177F8FE582", "智能体通知", "\uE3E4", "通过智能体发送通知提醒")]
-[NotificationChannelInfo("A4D4B4A0-34D1-4E12-9E54-4F76F12AE77B", "智能体消息", "\uE3E4", "智能体消息渠道")]
+[NotificationProviderInfo("687EFB6B-0639-44F4-A0EC-29177F8FE582", "智能体通知", "\uE271", "通过智能体发送通知提醒")]
+[NotificationChannelInfo("A4D4B4A0-34D1-4E12-9E54-4F76F12AE77B", "智能体消息", "\uE271", "智能体消息渠道")]
 public class AgentIslandNotificationProvider : NotificationProviderBase
 {
     private const string MessageChannelId = "A4D4B4A0-34D1-4E12-9E54-4F76F12AE77B";
