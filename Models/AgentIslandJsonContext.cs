@@ -12,6 +12,7 @@ namespace AgentIsland.Models;
 [JsonSerializable(typeof(SubjectEntry))]
 [JsonSerializable(typeof(NotificationResult))]
 [JsonSerializable(typeof(SetTextResult))]
+[JsonSerializable(typeof(EchoCaveResult))]
 [JsonSerializable(typeof(AiTextEntry))]
 [JsonSerializable(typeof(List<ScheduleClassEntry>))]
 [JsonSerializable(typeof(List<SubjectEntry>))]

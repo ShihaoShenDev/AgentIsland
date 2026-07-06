@@ -433,11 +433,18 @@ reference/
 
 # 部分 Qoder 文件（有机密）
 .qoder/*
-!.qoder/repowiki/
+!.qoder/repowiki
 _output/
 
 # 生成的 CIPX 插件包
 cipx/
 
-# MiMo Code Compose 模式生成的 Docs
+# MiMo Code Compose 模式生成的文件
+.mimocode/
 docs/
+
+# JetBrains Rider
+.idea/
+
+# 彻底去掉 bin 文件夹（纯看不顺眼）
+bin/

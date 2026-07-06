@@ -47,6 +47,7 @@ public sealed class McpServerManager : IDisposable
                     tools.WithTool<GetScheduleByDateTool>(new GetScheduleByDateTool());
                     tools.WithTool<SendNotificationTool>(new SendNotificationTool());
                     tools.WithTool<SetComponentTextTool>(new SetComponentTextTool());
+                    tools.WithTool<EchoCaveTool>(new EchoCaveTool());
                 })
                 .WithJsonSerializer(AgentIslandJsonContext.Default);
 

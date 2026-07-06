@@ -48,4 +48,10 @@
         </None>
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="echo-cave.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
 </Project>

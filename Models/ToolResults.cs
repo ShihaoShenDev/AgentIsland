@@ -56,3 +56,6 @@ public sealed record SetTextResult(
     bool Success,
     string Message);
 
+public sealed record EchoCaveResult(
+    string Content);
+
