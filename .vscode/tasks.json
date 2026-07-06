@@ -2,25 +2,25 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run",
+            "label": "Build and Run",
             "type": "shell",
-            "command": ".\\build-debug.ps1",
+            "command": ".\\build.ps1",
             "inAgents": true
         },
         {
-            "label": "Run (Release)",
+            "label": "Build and Run (Release)",
             "type": "shell",
             "command": ".\\build-release.ps1",
             "inAgents": true
         },
         {
-            "label": "Build CIPX Package",
+            "label": "Create CIPX Package",
             "type": "shell",
             "command": ".\\cipx.ps1",
             "inAgents": true
         },
         {
-            "label": "Build CIPX Package (Debug)",
+            "label": "Create CIPX Package (Debug)",
             "type": "shell",
             "command": ".\\cipx-debug.ps1",
             "inAgents": true
