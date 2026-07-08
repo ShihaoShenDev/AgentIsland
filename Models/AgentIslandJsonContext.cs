@@ -13,8 +13,11 @@ namespace AgentIsland.Models;
 [JsonSerializable(typeof(NotificationResult))]
 [JsonSerializable(typeof(SetTextResult))]
 [JsonSerializable(typeof(EchoCaveResult))]
+[JsonSerializable(typeof(ComponentTextListResult))]
+[JsonSerializable(typeof(ComponentTextEntry))]
 [JsonSerializable(typeof(AiTextEntry))]
 [JsonSerializable(typeof(List<ScheduleClassEntry>))]
 [JsonSerializable(typeof(List<SubjectEntry>))]
+[JsonSerializable(typeof(List<ComponentTextEntry>))]
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 internal partial class AgentIslandJsonContext : JsonSerializerContext;

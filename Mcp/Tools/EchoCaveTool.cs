@@ -1,4 +1,5 @@
 using System.IO;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AgentIsland.Models;
@@ -54,17 +55,19 @@ public sealed class EchoCaveTool : IMcpServerTool
             var _logger = IAppHost.GetService<ILogger<EchoCaveTool>>();
             _logger?.LogDebug("调用 get_echo_cave");
 
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "echo-cave.txt");
-            if (!File.Exists(filePath))
+            using var stream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("AgentIsland.echo-cave.txt");
+
+            if (stream is null)
             {
                 return ValueTask.FromResult(CallToolResult.FromResultStructured(
-                    new EchoCaveResult("回声洞文件不存在。"),
+                    new EchoCaveResult("回声洞资源不存在。"),
                     AgentIslandJsonContext.Default.EchoCaveResult));
             }
 
-            string[] lines = File.ReadAllLines(filePath)
-                .Where(l => !string.IsNullOrWhiteSpace(l))
-                .ToArray();
+            using var reader = new StreamReader(stream);
+            string content = reader.ReadToEnd();
+            string[] lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (lines.Length == 0)
             {

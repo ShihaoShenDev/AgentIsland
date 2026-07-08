@@ -59,3 +59,12 @@ public sealed record SetTextResult(
 public sealed record EchoCaveResult(
     string Content);
 
+public sealed record ComponentTextListResult(
+    List<ComponentTextEntry> Entries);
+
+public sealed record ComponentTextEntry(
+    string Id,
+    string Description,
+    string Text,
+    string DisplayName);
+

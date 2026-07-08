@@ -8,13 +8,13 @@ ClassIsland plugin (Avalonia desktop app, .NET 8, Windows-only). Exposes MCP Ser
 
 ```powershell
 # Debug build + launch ClassIsland (kills existing instance first)
-.\build-debug.ps1
+.\build.ps1
 
 # Release build + launch
 .\build-release.ps1
 
 # Create .cipx plugin package
-.\create-cipx.ps1
+.\cipx.ps1
 ```
 
 **Prerequisites**: ClassIsland development environment must be set up first. See https://docs.classisland.tech/dev/get-started/development-plugins.html
@@ -25,7 +25,7 @@ ClassIsland plugin (Avalonia desktop app, .NET 8, Windows-only). Exposes MCP Ser
 
 - **Entry point**: `Plugin.cs` - lifecycle management (Initialize/Start/Stop/Dispose)
 - **MCP Server**: `Mcp/McpServerManager.cs` - manages server lifecycle
-- **MCP Tools**: `Mcp/Tools/` - individual tool implementations (get_current_class, swap_classes, etc.)
+- **MCP Tools**: `Mcp/Tools/` - individual tool implementations (get_current_class, swap_classes, get_echo_cave, etc.)
 - **Settings UI**: `Views/SettingsPages/` - Avalonia XAML pages (McpSettingsPage, AcpSettingsPage, AiTextSettingsPage)
 - **Models**: `Models/AgentIslandSettings.cs` - central settings (Enabled, Port, TransportMode, etc.)
 - **Services**: `Services/AcpRunnerService.cs` - ACP agent runner (work in progress)

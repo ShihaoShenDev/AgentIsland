@@ -49,9 +49,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="echo-cave.txt">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <EmbeddedResource Include="echo-cave.txt" />
     </ItemGroup>
 
 </Project>
