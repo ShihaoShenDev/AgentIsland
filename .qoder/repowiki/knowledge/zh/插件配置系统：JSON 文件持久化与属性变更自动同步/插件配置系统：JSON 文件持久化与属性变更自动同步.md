@@ -1,3 +1,19 @@
+---
+kind: configuration_system
+name: 插件配置系统：JSON 文件持久化与属性变更自动同步
+category: configuration_system
+scope:
+    - '**'
+source_files:
+    - Plugin.cs
+    - Models/AgentIslandSettings.cs
+    - Models/AcpAgentProfile.cs
+    - Models/McpTransportMode.cs
+    - Models/AiTextEntry.cs
+    - Models/RunAcpActionSettings.cs
+    - Services/AcpRunnerService.cs
+---
+
 ## 配置系统与加载机制
 
 AgentIsland 作为 ClassIsland 桌面插件，采用**单一 JSON 配置文件 + 属性变更自动持久化**的配置方案。所有运行时设置集中在 `Settings.json` 文件中，位于宿主提供的 `PluginConfigFolder` 目录下。

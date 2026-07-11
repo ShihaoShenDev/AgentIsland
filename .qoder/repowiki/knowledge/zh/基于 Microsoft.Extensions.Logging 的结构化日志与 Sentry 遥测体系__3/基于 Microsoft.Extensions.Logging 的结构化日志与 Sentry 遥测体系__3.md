@@ -1,3 +1,22 @@
+---
+kind: logging_system
+name: 基于 Microsoft.Extensions.Logging 的结构化日志与 Sentry 遥测体系
+category: logging_system
+scope:
+    - '**'
+source_files:
+    - Plugin.cs
+    - Services/SentryTelemetryService.cs
+    - Mcp/McpServerManager.cs
+    - Automation/RunAcpAction.cs
+    - Mcp/Tools/AgentIslandNotificationProvider.cs
+    - Mcp/Tools/LessonTools.cs
+    - Mcp/Tools/ScheduleTools.cs
+    - Mcp/Tools/SendNotificationTool.cs
+    - Mcp/Tools/SetComponentTextTool.cs
+    - AgentIsland.csproj
+---
+
 ## 系统概述
 AgentIsland 插件采用 **Microsoft.Extensions.Logging**（ILogger）作为统一日志抽象，配合 **Sentry SDK** 实现结构化异常上报与性能追踪。日志由宿主 ClassIsland 注入 ILogger 实例，本插件不自行配置日志输出目标（sink），仅消费 DI 提供的 logger。
 

@@ -61,7 +61,7 @@ public class Plugin : PluginBase, IDisposable
         if (InjectService.TryGetAddSettingsPageGroupMethod(out MethodInfo? addSettingsPageGroupMethod))
         {
             addSettingsPageGroupMethod.Invoke(typeof(SettingsWindowRegistryExtensions),
-                [services, "agentisland.settings", "\uE99A", "AgentIsland"]);
+                [services, "agentisland.settings", "\uE272", "AgentIsland"]);
 
             if (InjectService.TryGetSettingsPageInfoGroupIdProperty(out PropertyInfo? groupIdProperty))
             {

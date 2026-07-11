@@ -13,6 +13,8 @@ namespace AgentIsland.Views.SettingsPages
     [SettingsPageInfo(
         id: "agentisland.overview",
         name: "概览",
+        unSelectedIconGlyph: "\uEFFF",
+        selectedIconGlyph: "\uEFFE",
         category: SettingsPageCategory.External
     )]
     public partial class OverviewSettingsPage : SettingsPageBase

@@ -9,14 +9,14 @@
     <Grid>
         <ScrollViewer Padding="16" VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="8" Classes="settings-container animated-intro">
-                <ci:IconText Glyph="&#xE80F;" Text="AgentIsland 概览" Margin="0 0 0 4" />
+                <ci:IconText Glyph="&#xEFFF;" Text="AgentIsland 概览" Margin="0 0 0 4" />
 
                 <fa:InfoBar IsOpen="True" Severity="Warning" Title="本项目正在积极开发中，请不要用于生产环境。" IsClosable="False" />
 
                 <fa:InfoBar IsOpen="True" Severity="Informational" Title="新的概览界面正在来的路上！目前该页面暂不可用，请关注项目的开发进程。" IsClosable="False" />
 
                 <!-- 基本信息 -->
-                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE946;}"
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE9E4;}"
                                      Header="基本信息"
                                      Description="插件名称、版本和作者信息。"
                                      IsEnabled="False">
@@ -29,7 +29,7 @@
                 </fa:SettingsExpander>
 
                 <!-- 功能概览 -->
-                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE790;}"
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE06E;}"
                                      Header="功能概览"
                                      Description="AgentIsland 提供的核心功能。"
                                      IsEnabled="False">
@@ -42,7 +42,7 @@
                 </fa:SettingsExpander>
 
                 <!-- 快速链接 -->
-                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE8A7;}"
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xEAB0;}"
                                      Header="快速链接"
                                      Description="访问相关资源和文档。"
                                      IsEnabled="False">
@@ -57,7 +57,7 @@
                 </fa:SettingsExpander>
 
                 <!-- 系统状态 -->
-                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE946;}"
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xEDC6;}"
                                      Header="系统状态"
                                      Description="当前插件运行状态。"
                                      IsEnabled="False">
