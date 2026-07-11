@@ -1,1 +1,0 @@
-C# with Avalonia XAML (`*.axaml`), CommunityToolkit.Mvvm (`ObservableObject`, `SetProperty`), System.Text.Json for JSON-RPC over stdio, Microsoft.Extensions.Logging, and Sentry .NET SDK for opt-in telemetry.

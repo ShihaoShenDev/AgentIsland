@@ -1,16 +1,11 @@
 id: ShihaoShen.AgentIsland
-name: AgentIsland
-description: 你的课表，智能进化。
+name: ClassIsland CLI 适配器
+description: 适用于 ClassIsland 1 的 ClassIsland CLI 适配器。如果你是 ClassIsland 2 用户，请移步 AgentIsland。
 entranceAssembly: "AgentIsland.dll"
-url: https://github.com/ShihaoShenDev/AgentIsland
-version: 0.1.0.0
-apiVersion: 2.0.0.0
+url: https://github.com/ShihaoShenDev/classisland-cli
+version: 0.0.0.1
+apiVersion: 1.6.0
 author: Shihao Shen
 repoOwner: ShihaoShenDev
 repoName: AgentIsland
-assetsRoot: main/AgentIsland
-supportedOSPlatforms:
-  - Windows
-dependencies:
-  - id: lrs2187.sai
-    isRequired: false
+assetsRoot: cliadapter-v1/AgentIsland

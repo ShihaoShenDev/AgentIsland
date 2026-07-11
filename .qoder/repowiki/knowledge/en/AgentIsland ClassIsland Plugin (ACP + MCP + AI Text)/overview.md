@@ -1,1 +1,0 @@
-Single-class library plugin that boots an ACP stdio agent, hosts a ModelContextProtocol server, and exposes an AI text component with settings UI inside the ClassIsland host.

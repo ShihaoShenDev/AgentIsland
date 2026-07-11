@@ -1,55 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net8.0-windows</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<EnableDynamicLoading>True</EnableDynamicLoading>
+	</PropertyGroup>
 
-    <PropertyGroup>
-        <ClassIslandPluginSdkVersion>1.7.106.2-dev-v2</ClassIslandPluginSdkVersion>
-    </PropertyGroup>
+	<PropertyGroup>
+		<ClassIslandPluginSdkVersion>1.6.0.5</ClassIslandPluginSdkVersion>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <Compile Remove="reference\**" />
-        <Compile Remove="_output\**" />
-        <AvaloniaXaml Remove="reference\**" />
-        <AvaloniaXaml Remove="_output\**" />
-        <None Remove="reference\**" />
-        <None Remove="_output\**" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="ClassIsland.PluginSdk" Version="$(ClassIslandPluginSdkVersion)">
+			<ExcludeAssets>runtime; native</ExcludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="ClassIsland.PluginSdk" Version="$(ClassIslandPluginSdkVersion)">
-            <ExcludeAssets>runtime; native</ExcludeAssets>
-        </PackageReference>
-        <PackageReference Include="DotNetCampus.ModelContextProtocol" Version="0.1.0-alpha.40" />
-        <PackageReference Include="AgentClientProtocol" Version="0.1.5" />
-        <PackageReference Include="Sentry" Version="5.14.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="$(NuGetPackageRoot)dotnetcampus.modelcontextprotocol\0.1.0-alpha.40\lib\net8.0\DotNetCampus.ModelContextProtocol.dll" CopyToOutputDirectory="PreserveNewest" Link="DotNetCampus.ModelContextProtocol.dll" />
-        <None Include="$(NuGetPackageRoot)system.text.json\10.0.0\lib\net8.0\System.Text.Json.dll" CopyToOutputDirectory="PreserveNewest" Link="System.Text.Json.dll" />
-        <None Include="$(NuGetPackageRoot)system.text.encodings.web\10.0.0\lib\net8.0\System.Text.Encodings.Web.dll" CopyToOutputDirectory="PreserveNewest" Link="System.Text.Encodings.Web.dll" />
-        <None Include="$(NuGetPackageRoot)system.io.pipelines\10.0.0\lib\net8.0\System.IO.Pipelines.dll" CopyToOutputDirectory="PreserveNewest" Link="System.IO.Pipelines.dll" />
-        <None Include="$(NuGetPackageRoot)sentry\5.14.1\lib\net8.0\Sentry.dll" CopyToOutputDirectory="PreserveNewest" Link="Sentry.dll" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Update="manifest.yml">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="README.md">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="icon.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Include="echo-cave.txt" />
-    </ItemGroup>
-
+	<ItemGroup>
+		<None Update="manifest.yml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="README.md">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="icon.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>

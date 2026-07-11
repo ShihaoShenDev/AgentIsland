@@ -1,9 +1,0 @@
-Organized as a ClassIsland plugin split by concern:
-- `Automation/RunAcpAction.cs` — a `[ActionInfo]`-decorated `ActionBase<T>` that validates `AgentIslandSettings`, locates the named `AcpAgentProfile`, and delegates execution to `AcpRunnerService.RunAgentAsync`.
-- `Services/AcpRunnerService.cs` — owns `Process` lifecycles per `AcpAgentSession`, performs JSON-RPC over stdin/stdout (`initialize` → `session/prompt`) using `System.Text.Json`, and integrates with `SentryTelemetryService` via `IAppHost.GetService<SentryTelemetryService>()`.
-- `Services/SentryTelemetryService.cs` — singleton-like service that initializes/shuts down the Sentry SDK in response to `AgentIslandSettings` property changes; exposes `WithInstrumentation` / `WithInstrumentationAsync` wrappers around tool calls.
-- `Models/` — POCOs decorated with `[JsonPropertyName]` and built on `CommunityToolkit.Mvvm.ComponentModel.ObservableObject`; `AgentIslandSettings` is the central hub, hooking `CollectionChanged` + `PropertyChanged` on its two `ObservableCollection<>` properties (`AcpAgents`, `AiTextEntries`) and deriving read-only computed properties (`ConnectionAddress`, `TotalAgentCount`, `EnabledAgentCount`, `HasAcpAgents`, telemetry flags).
-- `Components/AiTextComponent.axaml(.cs)` — a `[ComponentInfo]`-decorated Avalonia `ComponentBase<AiTextComponentSettings>` bound to `Plugin.Settings.AiTextEntries`, exposing Avalonia `StyledProperty`s (`ResolvedText`, `PlaceholderText`).
-- `Views/SettingsPages/` and `Views/ActionSettings/` — Avalonia XAML pages backing each settings group (ACP, MCP, Telemetry, AiText, RunAcp action), all consuming `AgentIslandSettings` directly.
-- `Helpers/UiThreadHelper.cs` — cross-thread helper used when updating UI from background agent sessions.
-Dependency direction: Views/Components → Models → Services → Automation; services depend on models but never on views. The module has no build manifest of its own and is consumed by the host plugin assembly.

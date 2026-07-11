@@ -1,173 +1,118 @@
-# AgentIsland
+# 插件自述文件
 
-`AgentIsland` 是一个面向 `ClassIsland` 的插件，用于把本地课程表能力以 **MCP Server** 的形式暴露给外部智能体或工具。
+本文件会在插件市场上显示。在安装插件后，本自述文件也会在【应用设置】->【插件】页面中显示。因此，本文件也将会是用户了解你的插件功能的重要途径，建议好好写 README。
 
-安装并启动后，插件会在本机开启一个 MCP 服务，外部客户端可以通过它读取当前课表状态、查询上下课信息，或者直接对指定日期的课表执行换课操作。
+**注意事项：**
 
-## 功能
+- 嵌入图片时请使用网络图床。
+- 支持在这里直接调用 ClassIsland 内部的 Uri，例如[classisland://app/test/](classisland://app/test/)。
+- 本文件一般会在 ClassIsland 内置的 Markdown 渲染器（基于 [MdXaml](https://github.com/whistyun/MdXaml)）中渲染，仅支持部分 Markdown 语法。
 
-- 提供本机 MCP 服务
-- 查询当前正在上的课
-- 查询下一节课
-- 查询当前时间状态
-- 获取当天课表
-- 查询所有学科
-- 交换指定日期课表中的两节课
-- 自动创建或复用 ClassIsland 的临时换课层
+***
 
-## MCP 地址
+**支持的 Markdown 语法：**
 
-插件启动后会监听以下地址：
+> 本示例魔改自 [Leanote 博客](http://leanote.leanote.com/post/markdown-source-code)。
 
-- `http://localhost:5943/mcp`
-- `http://localhost:5943/sse`
+# Welcome to ClassIsland! 欢迎来到ClassIsland!
+ 
+## 1. 排版
+ 
+**粗体** *斜体* 
+ 
+~~这是一段错误的文本。~~
+ 
+引用:
+ 
+> 123123123123
+ 
+有充列表:
+ 1. 支持Vim
+ 2. 支持Emacs
+ 
+无序列表:
+ 
+ - 项目1
+ - 项目2
+ 
+ 
+## 2. 图片与链接
+ 
+网络图片:
+![Banner](https://github.com/user-attachments/assets/a815dd7d-8343-4da5-aee4-3f754aa297e4)
 
-## 已暴露工具
+WPF 资源图片：
 
-### `get_current_class`
+![1690356161339](pack://application:,,,/ClassIsland;component/Assets/AppLogo.png)
 
-获取当前正在上的课程信息。
-
-返回内容包含：
-
-- 课程名
-- 任课教师
-- 上课开始时间
-- 下课结束时间
-- 剩余秒数
-- 是否正在上课
-
-### `get_next_class`
-
-获取下一节课的信息。
-
-返回内容包含：
-
-- 课程名
-- 任课教师
-- 上课开始时间
-- 下课结束时间
-- 距离开始还有多少秒
-- 是否存在下一节课
-
-### `get_time_status`
-
-获取当前时间状态。
-
-返回内容包含：
-
-- 当前状态
-- 剩余秒数
-- 当前本地时间
-
-### `get_today_schedule`
-
-获取今天的课表。
-
-返回内容包含：
-
-- 课表名称
-- 日期
-- 课程列表
-
-课程列表中的每一项包含：
-
-- 序号
-- 课程名
-- 任课教师
-- 开始时间
-- 结束时间
-- 是否为换课
-- 是否启用
-
-### `list_subjects`
-
-获取当前配置中的所有学科。
-
-返回内容包含：
-
-- 学科 ID
-- 学科名称
-- 任课教师
-- 缩写
-
-### `swap_classes`
-
-交换指定日期课表中的两节课。
-
-参数说明：
-
-- `classIndex1`：第一节课索引，从 `0` 开始
-- `classIndex2`：第二节课索引，从 `0` 开始
-- `date`：换课日期，格式为 `yyyy-MM-dd`
-- 如果 `date` 为空字符串，则表示今天
-
-说明：
-
-- 会优先复用已有的临时换课层
-- 如果没有对应日期的课表，操作会失败
-- 交换后会自动保存到配置中
-
-## 使用场景
-
-- 让大模型读取 ClassIsland 的实时课表状态
-- 为校园助手、学习助手、自动排课工具提供本地数据接口
-- 在不直接修改原始课表的前提下完成临时换课
-
-## 运行要求
-
-- `Windows`
-- `ClassIsland`
-- `.NET 8`
-
-## 构建说明
-
-> [!IMPORTANT]
-> 请参考 https://docs.classisland.tech/dev/get-started/development-plugins.html 提前搭建 ClassIsland 的开发环境，否则无论是`dotnet run`还是使用编译脚本（见下文）都会报错。
-
-### 使用构建脚本构建并运行（推荐）
-
-```bash
-# 构建调试版本（推荐用于开发）
-.\build-debug.ps1
-
-# 或者构建发行版本，可使用 ClassIsland 的打包功能直接发布
-.\build-release.ps1
+链接:
+ 
+[ClassIsland 官网](http://classisland.tech)
+ 
+## 3. 标题
+ 
+以下是各级标题, 最多支持5级标题
+ 
 ```
-
-### 使用 `dotnet run` 构建并运行
-
-> [!NOTE]
-> 我也不知道`Properties/launchSettings.json`能不能跑通，反正我的电脑上不行（bushi）
-
-```bash
-dotnet run
+# h1
+## h2
+### h3
+#### h4
+##### h4
+###### h5
 ```
-
-### 打包
-
-```bash
-.\create-cipx.ps1
+ 
+## 4. 代码
+ 
+示例:
+ 
+    function get(key) {
+        return m[key];
+    }
+    
+代码高亮示例:
+ 
+``` javascript
+/**
+* nth element in the fibonacci series.
+* @param n >= 0
+* @return the nth element, >= 0.
+*/
+function fib(n) {
+  var a = 1, b = 1;
+  var tmp;
+  while (--n >= 0) {
+    tmp = a;
+    a += b;
+    b = tmp;
+  }
+  return a;
+}
+ 
+document.write(fib(10));
 ```
-
-或参考：https://docs.classisland.tech/dev/plugins/publishing.html
-
-## 项目结构
-
-- `Plugin.cs`：插件入口，负责启动和停止 MCP 服务
-- `Mcp/`：MCP 服务与工具实现
-- `Helpers/`：UI 线程辅助工具
-- `Models/`：MCP 返回结果模型
-- `manifest.yml`：插件清单
-
-## 正在开发的功能
-- [ ] ACP 支持
-- [ ] 可扩展性
-- [ ] 小希语音原生支持
-- ......
-
-## 许可证
-
-本项目在 GPL-3.0 license 下发布。
-
-_本 ReadMe 由 Codex 生成。_
+ 
+```python
+class Employee:
+   empCount = 0
+ 
+   def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+        Employee.empCount += 1
+```
+ 
+# 5. Markdown 扩展
+ 
+Markdown 扩展支持:
+ 
+* 表格
+ 
+## 5.1 表格
+ 
+Item     | Value
+-------- | ---
+Computer | \$1600
+Phone    | \$12
+Pipe     | \$1
+ 
