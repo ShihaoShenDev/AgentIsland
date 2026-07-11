@@ -1,0 +1,17 @@
+schema_version: 1
+module_path: logging_system
+title: 基于 Microsoft.Extensions.Logging 的结构化日志与 Sentry 遥测体系
+scope: []
+source_files:
+    - Plugin.cs
+    - Services/SentryTelemetryService.cs
+    - Mcp/McpServerManager.cs
+    - Automation/RunAcpAction.cs
+    - Mcp/Tools/AgentIslandNotificationProvider.cs
+    - Mcp/Tools/LessonTools.cs
+    - Mcp/Tools/ScheduleTools.cs
+    - Mcp/Tools/SendNotificationTool.cs
+    - Mcp/Tools/SetComponentTextTool.cs
+    - AgentIsland.csproj
+depends_on: []
+related_to: []

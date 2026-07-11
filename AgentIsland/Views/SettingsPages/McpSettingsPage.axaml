@@ -1,0 +1,93 @@
+<ci:SettingsPageBase xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:models="using:AgentIsland.Models"
+                     xmlns:ci="http://classisland.tech/schemas/xaml/core"
+                     xmlns:fa="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+                     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+                     x:Class="AgentIsland.Views.SettingsPages.McpSettingsPage"
+                     x:DataType="models:AgentIslandSettings">
+    <Grid>
+        <ScrollViewer Padding="16" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="8" Classes="settings-container animated-intro">
+                <ci:IconText Glyph="&#xEF1D;" Text="MCP 设置" Margin="0 0 0 4" />
+
+                <fa:InfoBar x:Name="RestartBanner"
+                            IsOpen="False" Severity="Warning"
+                            Title="设置已更改，需要重启 ClassIsland 才能生效。"
+                            IsClosable="False" />
+
+                <!-- 启用 MCP 服务器 -->
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xEDE9;}"
+                                     Header="启用 MCP 服务器"
+                                     Description="允许智能体通过 Model Context Protocol 访问 ClassIsland 的课表和控制命令。">
+                    <fa:SettingsExpander.Footer>
+                        <ToggleSwitch IsChecked="{Binding IsEnabled}"/>
+                    </fa:SettingsExpander.Footer>
+                </fa:SettingsExpander>
+
+                <!-- MCP 端口 -->
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE3D2;}"
+                                     Header="服务监听端口"
+                                     Description="指定 MCP 服务器监听的端口。">
+                    <fa:SettingsExpander.Footer>
+                        <NumericUpDown Value="{Binding Port}"
+                                       Minimum="1"
+                                       Maximum="65535"
+                                       Increment="1"
+                                       MinWidth="120"/>
+                    </fa:SettingsExpander.Footer>
+                </fa:SettingsExpander>
+
+                <!-- 传输模式 -->
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xEE1F;}"
+                                     Header="传输模式"
+                                     Description="选择 MCP 服务器使用的传输协议。">
+                    <fa:SettingsExpander.Footer>
+                        <ComboBox SelectedIndex="{Binding TransportMode}"
+                                  MinWidth="140">
+                            <ComboBoxItem Content="Streamable HTTP"/>
+                            <ComboBoxItem Content="SSE" IsEnabled="False"/>
+                        </ComboBox>
+                    </fa:SettingsExpander.Footer>
+                </fa:SettingsExpander>
+
+                <!-- 连接地址 -->
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xEAB0;}"
+                                     Header="连接地址"
+                                     Description="MCP 服务器的连接地址。">
+                    <fa:SettingsExpander.Footer>
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock x:Name="ConnectionAddressText"
+                                       Text="{Binding ConnectionAddress}"
+                                       VerticalAlignment="Center"/>
+                            <Button Padding="4"
+                                    Tag="{Binding ConnectionAddress}"
+                                    Click="OnCopyConnectionAddress"
+                                    ToolTip.Tip="复制到剪贴板">
+                                <Button.Flyout>
+                                    <Flyout Placement="Bottom">
+                                        <TextBlock Text="已复制。"/>
+                                    </Flyout>
+                                </Button.Flyout>
+                                <ci:FluentIcon Glyph="&#xE58B;" FontSize="14"/>
+                            </Button>
+                        </StackPanel>
+                    </fa:SettingsExpander.Footer>
+                </fa:SettingsExpander>
+
+                <!-- 如何连接 -->
+                <fa:SettingsExpander IconSource="{ci:FluentIconSource &#xE9E4;}"
+                                     Header="如何连接"
+                                     Description="查看 MCP 服务器的连接说明和使用指南。">
+                    <fa:SettingsExpander.Footer>
+                        <Button Content="查看"
+                                Click="OnOpenHowToConnect"/>
+                    </fa:SettingsExpander.Footer>
+                </fa:SettingsExpander>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</ci:SettingsPageBase>

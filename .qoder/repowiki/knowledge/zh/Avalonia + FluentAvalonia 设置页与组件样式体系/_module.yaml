@@ -1,0 +1,14 @@
+schema_version: 1
+module_path: frontend_style
+title: Avalonia + FluentAvalonia 设置页与组件样式体系
+scope: []
+source_files:
+    - AgentIsland.csproj
+    - Components/AiTextComponent.axaml
+    - Views/SettingsPages/AcpSettingsPage.axaml
+    - Views/SettingsPages/AiTextSettingsPage.axaml
+    - Views/SettingsPages/McpSettingsPage.axaml
+    - Views/SettingsPages/OverviewSettingsPage.axaml
+    - Views/SettingsPages/TelemetrySettingsPage.axaml
+depends_on: []
+related_to: []

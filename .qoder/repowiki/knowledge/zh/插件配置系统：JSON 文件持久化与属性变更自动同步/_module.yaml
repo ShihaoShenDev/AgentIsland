@@ -1,0 +1,14 @@
+schema_version: 1
+module_path: configuration_system
+title: 插件配置系统：JSON 文件持久化与属性变更自动同步
+scope: []
+source_files:
+    - Plugin.cs
+    - Models/AgentIslandSettings.cs
+    - Models/AcpAgentProfile.cs
+    - Models/McpTransportMode.cs
+    - Models/AiTextEntry.cs
+    - Models/RunAcpActionSettings.cs
+    - Services/AcpRunnerService.cs
+depends_on: []
+related_to: []

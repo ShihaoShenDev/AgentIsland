@@ -3,7 +3,7 @@ schema_version: 1
 locale: en-US
 branch: main
 nodes_managed: true
-exported_at: "2026-07-05T13:05:36Z"
+exported_at: "2026-07-10T14:17:10Z"
 modules:
     "":
         dir_name: AgentIsland ClassIsland Plugin (ACP + MCP + AI Text)
@@ -255,90 +255,6 @@ modules:
             - Services/
             - Views/
         source_files: []
-        children: []
-        depends_on: []
-        related_to: []
-    build_system:
-        dir_name: .NET SDK + ClassIsland Plugin Build Pipeline
-        title: .NET SDK + ClassIsland Plugin Build Pipeline
-        scope: []
-        source_files:
-            - AgentIsland.csproj
-            - manifest.yml
-            - build-debug.ps1
-            - build-release.ps1
-            - create-cipx.ps1
-            - .github/workflows/cipx.yml
-        children: []
-        depends_on: []
-        related_to: []
-    configuration_system:
-        dir_name: ClassIsland Plugin Settings via JSON + ObservableObject
-        title: ClassIsland Plugin Settings via JSON + ObservableObject
-        scope: []
-        source_files:
-            - Plugin.cs
-            - Models/AgentIslandSettings.cs
-            - Models/AiTextEntry.cs
-            - Models/AcpAgentProfile.cs
-            - Models/RunAcpActionSettings.cs
-            - Models/AiTextComponentSettings.cs
-            - Models/McpTransportMode.cs
-        children: []
-        depends_on: []
-        related_to: []
-    dependency_management:
-        dir_name: .NET NuGet Package References with Locked Transitive Dependencies
-        title: .NET NuGet Package References with Locked Transitive Dependencies
-        scope: []
-        source_files:
-            - AgentIsland.csproj
-            - reference/IslandMQ/packages.lock.json
-            - reference/IslandMQ/renovate.json
-        children: []
-        depends_on: []
-        related_to: []
-    error_handling:
-        dir_name: Exception-Driven Error Handling with Sentry Telemetry
-        title: Exception-Driven Error Handling with Sentry Telemetry
-        scope: []
-        source_files:
-            - Services/SentryTelemetryService.cs
-            - Plugin.cs
-            - Mcp/McpServerManager.cs
-            - Automation/RunAcpAction.cs
-            - Mcp/Tools/ScheduleTools.cs
-            - Mcp/Tools/SendNotificationTool.cs
-        children: []
-        depends_on: []
-        related_to: []
-    frontend_style:
-        dir_name: Avalonia + FluentAvalonia XAML Styling
-        title: Avalonia + FluentAvalonia XAML Styling
-        scope: []
-        source_files:
-            - AgentIsland.csproj
-            - Components/AiTextComponent.axaml
-            - Components/AiTextComponent.axaml.cs
-            - Views/SettingsPages/AiTextSettingsPage.axaml
-            - Views/SettingsPages/McpSettingsPage.axaml
-            - Views/SettingsPages/TelemetrySettingsPage.axaml
-        children: []
-        depends_on: []
-        related_to: []
-    logging_system:
-        dir_name: Microsoft.Extensions.Logging with Sentry Telemetry
-        title: Microsoft.Extensions.Logging with Sentry Telemetry
-        scope: []
-        source_files:
-            - Plugin.cs
-            - Services/SentryTelemetryService.cs
-            - Automation/RunAcpAction.cs
-            - Mcp/McpServerManager.cs
-            - Mcp/Tools/AgentIslandNotificationProvider.cs
-            - Mcp/Tools/ScheduleTools.cs
-            - Mcp/Tools/SetComponentTextTool.cs
-            - Services/AcpRunnerService.cs
         children: []
         depends_on: []
         related_to: []
