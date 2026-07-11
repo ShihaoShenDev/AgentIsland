@@ -7,13 +7,13 @@ on:
     branches: [ "main" ]
 
   workflow_dispatch:
-  
+
 jobs:
 
   build:
 
     runs-on: windows-latest
-    
+
     steps:
     - name: Checkout
       uses: actions/checkout@v7
@@ -25,9 +25,9 @@ jobs:
 
     - name: Build CIPX Package
       run: dotnet publish -c Release -p:CreateCipx=true
-    
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v7
       with:
         name: CIPX Package
-        path: cipx
+        path: AgentIsland/cipx
